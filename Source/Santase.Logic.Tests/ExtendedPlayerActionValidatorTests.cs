@@ -43,5 +43,37 @@
 
             Assert.IsFalse(actualOutcome);
         }
+
+        [Test]
+        public void IsValid_ShouldReturnTrue_IfPlayerActionIsPlayCardAndArgumentsAreCorrect()
+        {
+            var playerActionValidator = new PlayerActionValidator();
+
+            var deck = new Deck();
+
+            var stateManager = new StateManager();
+            var context = new PlayerTurnContext(
+                new MoreThanTwoCardsLeftRoundState(stateManager),
+                deck.TrumpCard,
+                deck.CardsLeft,
+                30,
+                30);
+
+            var testPlayerHand = new List<Card>()
+            {
+                new Card(CardSuit.Club, CardType.Queen),
+                new Card(CardSuit.Diamond, CardType.King),
+                new Card(CardSuit.Club, CardType.King)
+            };
+
+            var playerActionCard = new Card(CardSuit.Club, CardType.King);
+
+            var actualOutcome = playerActionValidator.IsValid(
+                PlayerAction.PlayCard(playerActionCard),
+                context,
+                testPlayerHand);
+
+            Assert.IsTrue(actualOutcome);
+        }
     }
 }
