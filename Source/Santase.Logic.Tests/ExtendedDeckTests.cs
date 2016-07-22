@@ -118,5 +118,28 @@
 
             Assert.DoesNotThrow(() => newDeckObject.GetNextCard());
         }
+
+        [Test]
+        [TestCase(CardSuit.Club, CardType.Ace)]
+        [TestCase(CardSuit.Diamond, CardType.Nine)]
+        [TestCase(CardSuit.Heart, CardType.Queen)]
+        [TestCase(CardSuit.Spade, CardType.King)]
+        public void ChangeTrumpCard_NewCardShouldBeTheLastOneInTheDeckAtIndexZero(CardSuit suit, CardType type)
+        {
+            var newDeckObject = new Deck();
+            var expectedCard = new Card(suit, type);
+
+            newDeckObject.ChangeTrumpCard(expectedCard);
+
+            var deckSize = 24;
+            for (int i = 0; i < deckSize - 1; i++)
+            {
+                newDeckObject.GetNextCard();
+            }
+
+            var actualLastCard = newDeckObject.GetNextCard();
+
+            Assert.AreSame(expectedCard, actualLastCard);
+        }
     }
 }
