@@ -104,5 +104,19 @@
 
             Assert.Throws<InternalGameException>(() => newDeckObject.GetNextCard());
         }
+
+        [Test]
+        public void GetNextCard_ShouldNotThrow_IfTwentyFourCardsAreDrawn()
+        {
+            var newDeckObject = new Deck();
+
+            var deckSize = 24;
+            for (int i = 0; i < deckSize - 1; i++)
+            {
+                newDeckObject.GetNextCard();
+            }
+
+            Assert.DoesNotThrow(() => newDeckObject.GetNextCard());
+        }
     }
 }
